@@ -9,7 +9,6 @@ const fieldSchema = new mongoose.Schema({
 
 const formSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  description: { type: String },
   fields: [fieldSchema],
   workspace: {
     type: mongoose.Schema.Types.ObjectId,
@@ -19,6 +18,14 @@ const formSchema = new mongoose.Schema({
   folder: { type: mongoose.Schema.Types.ObjectId, ref: "Folder" },
   responses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Response" }],
   responseLink: { type: String, unique: true },
+  viewCount: { type: Number, default: 0 },
+});
+
+formSchema.pre("save", function (next) {
+  if (!this.responseLink) {
+    this.responseLink = crypto.randomBytes(16).toString("hex");
+  }
+  next();
 });
 
 const Form = mongoose.model("Form", formSchema);

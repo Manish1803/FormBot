@@ -36,6 +36,12 @@ const userSchema = new mongoose.Schema({
       ref: "Workspace",
     },
   ],
+  sharedWorkspaces: [
+    {
+      workspace: { type: mongoose.Schema.Types.ObjectId, ref: "Workspace" },
+      permission: { type: String, enum: ["edit", "view"], default: "view" },
+    },
+  ],
 });
 
 userSchema.pre("save", async function (next) {
