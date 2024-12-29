@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("./../models/User");
 const Workspace = require("./../models/Workspace");
+const TokenBlacklist = require("./../models/TokenBlacklist");
 
 exports.register = async (req, res) => {
   try {
@@ -118,5 +119,15 @@ exports.resetPassword = async (req, res) => {
     res.status(200).json({ message: "Password updated successfully" });
   } catch (error) {
     res.status(400).json({ error: error.message });
+  }
+};
+
+exports.logout = async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    await TokenBlacklist.create({ token });
+    res.status(200).json({ message: "User logged out successfully" });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 };
