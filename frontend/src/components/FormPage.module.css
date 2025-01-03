@@ -53,3 +53,41 @@
   border: none;
   cursor: pointer;
 }
+
+.buttonContainer {
+  width: fit-content;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 1rem;
+}
+
+.input {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.5rem;
+  font-size: 1.6rem;
+}
+
+.submit {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #0042da;
+  color: #fff;
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #0042da;
+  color: #fff;
+  font-size: 1.6rem;
+  cursor: pointer;
+}
