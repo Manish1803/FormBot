@@ -1,0 +1,55 @@
+.formPage {
+  width: 100%;
+  height: 100vh;
+  background-color: #fff;
+  color: #121212;
+  padding-top: 4rem;
+  font-size: 1.6rem;
+}
+
+.container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.chat {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profileIcon {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+}
+
+.message {
+  width: fit-content;
+  padding: 1rem 1rem;
+  background-color: #f7f8ff;
+  border-radius: 0.5rem;
+}
+
+.image {
+  background-color: #f7f8ff;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  width: 40rem;
+  height: 25rem;
+  object-fit: cover;
+}
+
+.nextButton {
+  display: grid;
+  place-items: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 0.2rem;
+  background-color: #0042da;
+  border: none;
+  cursor: pointer;
+}

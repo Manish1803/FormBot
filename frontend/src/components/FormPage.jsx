@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { IoSend } from "react-icons/io5";
 import { toast } from "react-hot-toast";
 import axios from "axios";
-
+import styles from "./FormPage.module.css";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 function FormPage() {
   const { responseLink } = useParams();
   const [form, setForm] = useState(null);
-  const [currentFieldIndex, setCurrentFieldIndex] = useState(0);
+  const [currentFieldIndex, setCurrentFieldIndex] = useState(2);
   const [answers, setAnswers] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
@@ -66,9 +67,23 @@ function FormPage() {
   const renderField = (field) => {
     switch (field.type) {
       case "text-display":
-        return <p>{field.label}</p>;
+        return (
+          <div className={styles.chat}>
+            <img
+              src="/circle.png"
+              alt="Profile"
+              className={styles.profileIcon}
+            />
+            <p className={styles.message}>{field.value}</p>
+          </div>
+        );
       case "image-display":
-        return <img src={field.imageUrl} alt={field.label} />;
+        return (
+          <div className={styles.chat}>
+            <p></p>
+            <img src={field.value} alt={field.label} className={styles.image} />
+          </div>
+        );
       case "text":
       case "email":
       case "phone":
@@ -78,9 +93,9 @@ function FormPage() {
           <input
             type={field.type === "phone" ? "tel" : field.type}
             placeholder={field.label}
-            value={answers[field._id] || ""}
+            value={answers[field.id] || ""}
             onChange={(e) =>
-              setAnswers({ ...answers, [field._id]: e.target.value })
+              setAnswers({ ...answers, [field.id]: e.target.value })
             }
           />
         );
@@ -89,7 +104,7 @@ function FormPage() {
           <select
             value={answers[field._id] || ""}
             onChange={(e) =>
-              setAnswers({ ...answers, [field._id]: e.target.value })
+              setAnswers({ ...answers, [field.id]: e.target.value })
             }
           >
             <option value="">Select Rating</option>
@@ -106,7 +121,7 @@ function FormPage() {
             {field.options.map((option) => (
               <button
                 key={option}
-                onClick={() => setAnswers({ ...answers, [field._id]: option })}
+                onClick={() => setAnswers({ ...answers, [field.id]: option })}
               >
                 {option}
               </button>
@@ -130,25 +145,32 @@ function FormPage() {
   const isLastField = currentFieldIndex === form.fields.length - 1;
 
   return (
-    <div>
-      <h1>{form.title}</h1>
-      <div>{renderField(currentField)}</div>
-      <div>
-        {!isLastField && (
-          <button
-            onClick={() =>
-              handleNext(currentField._id, answers[currentField._id])
-            }
-            disabled={!answers[currentField._id]}
-          >
-            Next
-          </button>
-        )}
-        {isLastField && (
-          <button onClick={handleSubmit} disabled={!answers[currentField._id]}>
-            Submit
-          </button>
-        )}
+    <div className={styles.formPage}>
+      <div className={styles.container}>
+        <div className={styles.buttonContainer}>
+          <div>{renderField(currentField)}</div>
+          <div>
+            {!isLastField && (
+              <button
+                className={styles.nextButton}
+                onClick={() =>
+                  handleNext(currentField.id, answers[currentField.id])
+                }
+                disabled={!answers[currentField.id]}
+              >
+                {currentFieldIndex === 0 ? "Hi" : <IoSend color="#FFFFFF" />}
+              </button>
+            )}
+            {isLastField && (
+              <button
+                onClick={handleSubmit}
+                disabled={!answers[currentField.id]}
+              >
+                Submit
+              </button>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
