@@ -1,0 +1,48 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  z-index: 2;
+}
+
+.inputContainer label {
+  display: block;
+  color: #fff;
+  font-weight: 500;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.inputContainer input {
+  width: 100%;
+  padding: 1.2rem;
+  border: 1px solid #ffffff80;
+  border-radius: 1rem;
+  margin-top: 0.5rem;
+  font-size: 1.4rem;
+  color: #ffffff80;
+  font-weight: 500;
+  background-color: #18181b;
+}
+
+.inputContainer .error {
+  display: block;
+  color: #dc2626;
+  font-size: 1.2rem;
+  height: 1.2rem;
+  margin-left: 1.4rem;
+}
+
+.btn {
+  font-family: "Poppins", sans-serif;
+  width: 100%;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: #1a5fff;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 1.6rem;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+}

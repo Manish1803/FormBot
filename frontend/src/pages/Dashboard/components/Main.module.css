@@ -1,0 +1,96 @@
+.section {
+  width: 110rem;
+  max-width: 110rem;
+  margin: 0 auto;
+  padding-top: 4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.folderList,
+.formList {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.formList {
+  gap: 2rem;
+  padding-top: 2rem;
+  overflow-y: auto;
+  max-height: 68rem;
+  padding-bottom: 8rem;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}
+
+/* Folders */
+
+.folders {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.folder,
+.createFolder {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  background-color: var(--sub-bg);
+  color: var(--text-color);
+  font-size: 1.5rem;
+  width: fit-content;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease-in-out;
+}
+
+.selected {
+  font-weight: 500;
+  background-color: var(--text-color);
+  color: var(--sub-bg-color);
+}
+
+/* Form  */
+.formTitle {
+  margin-top: 1rem;
+  font-size: 1.6rem;
+}
+
+.createTypeBot,
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 20rem;
+  height: 24rem;
+}
+
+.createTypeBot {
+  background-color: #1a5fff;
+}
+
+.form {
+  position: relative;
+  background-color: #8b8b8d;
+}
+
+.btnDeleteForm {
+  position: absolute;
+  top: -1rem;
+  right: -1rem;
+  background-color: #8b8b8d;
+  padding: 0.5rem 0.7rem;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  z-index: 2;
+}

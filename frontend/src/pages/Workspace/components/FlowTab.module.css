@@ -1,0 +1,7 @@
+.flowTab {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2rem;
+  background-color: var(--canvas-color);
+  padding: 1rem 2rem;
+}

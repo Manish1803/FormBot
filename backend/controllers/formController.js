@@ -104,6 +104,7 @@ exports.getForm = async (req, res) => {
 
 exports.updateForm = async (req, res) => {
   try {
+    console.log(req.body, req.params);
     const { title, fields } = req.body;
     const form = await Form.findById(req.params.id);
     if (!form) {

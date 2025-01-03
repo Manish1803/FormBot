@@ -1,0 +1,81 @@
+.authPage {
+  font-family: "Poppins", sans-serif;
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  font-size: 1.4rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.authForm {
+  z-index: 3;
+  width: 35rem;
+  max-width: 35rem;
+  margin: 0 auto;
+}
+
+.btnBack {
+  position: absolute;
+  top: 4rem;
+  left: 4rem;
+  padding: 1rem;
+  cursor: pointer;
+  color: #c0c0c0;
+  transition: all 0.2s ease-in-out;
+}
+
+.btnBack:hover {
+  color: #fff;
+}
+
+.toggleForm {
+  text-align: center;
+}
+
+.toggleButton {
+  margin: 0 auto;
+  margin-top: 2rem;
+  border: none;
+  background: none;
+  color: #1a5fff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1.4rem;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+/* Shapes */
+.svgTriangle {
+  position: absolute;
+  top: 50%;
+  left: 5rem;
+  transform: translateY(-50%);
+  z-index: -1;
+}
+
+.circle1,
+.circle2 {
+  position: absolute;
+  width: 20rem;
+  height: 20rem;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.circle1 {
+  top: 20rem;
+  right: -10rem;
+  background-color: #ff9595;
+}
+
+.circle2 {
+  bottom: -8rem;
+  right: 30%;
+  background-color: #ffbf7d;
+}

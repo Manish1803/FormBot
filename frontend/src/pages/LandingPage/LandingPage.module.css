@@ -30,6 +30,7 @@
 
 .btnSignIn,
 .btnCreate {
+  font-size: 1.4rem;
   border-radius: 0.6rem;
   font-weight: bold;
   font-family: inherit;

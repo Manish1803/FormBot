@@ -1,5 +1,6 @@
 import styles from "./LandingPage.module.css";
 import { LuExternalLink } from "react-icons/lu";
+import { Link } from "react-router";
 
 export default function LandingPage() {
   return (
@@ -13,8 +14,12 @@ export default function LandingPage() {
             className={styles.logo}
           />
           <div className={styles.btns}>
-            <button className={styles.btnSignIn}>Sign in</button>
-            <button className={styles.btnCreate}>Create a FormBot</button>
+            <Link to="/auth" className={styles.btnSignIn}>
+              Sign in
+            </Link>
+            <Link to="/auth" className={styles.btnCreate}>
+              Create a FormBot
+            </Link>
           </div>
         </header>
 
@@ -40,9 +45,12 @@ export default function LandingPage() {
               experiences. Embed them anywhere on your web/mobile apps and start
               collecting results like magic.
             </p>
-            <button className={`${styles.btnCreate} ${styles.btnFormBot}`}>
+            <Link
+              to="/auth"
+              className={`${styles.btnCreate} ${styles.btnFormBot}`}
+            >
               Create a FormBot for free
-            </button>
+            </Link>
           </section>
 
           {/* Image Section */}

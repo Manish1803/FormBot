@@ -1,0 +1,92 @@
+.settingPage {
+  width: 100%;
+  height: 100vh;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem;
+  gap: 6rem;
+  position: relative;
+}
+
+.title {
+  font-size: 1.4rem;
+}
+
+.formContainer {
+  width: 34rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.inputContainer {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  padding: 1rem;
+  gap: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+}
+
+.inputContainer input {
+  font-size: 1.4rem;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  border: none;
+  outline: none;
+}
+
+.inputContainer input:focus {
+  color: var(--text-color);
+  background-color: var(--background-color);
+  border: none;
+  outline: none;
+}
+
+.btn {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.4rem;
+  width: 100%;
+  background-color: var(--primary-color);
+  color: #fff;
+  margin-top: 2rem;
+  padding: 1rem;
+  border-radius: 2rem;
+}
+
+.logout {
+  background: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: absolute;
+  bottom: 6rem;
+  left: 6rem;
+  padding: 1rem;
+  cursor: pointer;
+  color: #cf3636;
+  transition: all 0.2s ease-in-out;
+}
+
+.logout:hover {
+  color: #f00;
+}
+
+.error {
+  display: block;
+  color: #dc2626;
+  font-size: 1.2rem;
+  height: 1.2rem;
+}
+
+.eye {
+  cursor: pointer;
+  background: none;
+  color: var(--text-color);
+}
