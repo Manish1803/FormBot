@@ -28,7 +28,7 @@ exports.register = async (req, res) => {
     user.workspaces.push(defaultWorkspace._id);
     await user.save();
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
 
@@ -67,7 +67,7 @@ exports.login = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const { email, username } = req.body;
+    const { username, email } = req.body;
     const userId = req.user.userId;
 
     const existingUser = await User.findOne({
@@ -80,7 +80,7 @@ exports.updateUser = async (req, res) => {
         .json({ error: "Username or email already in use" });
     }
 
-    const updatedUser = await User.findOneAndUpdate(
+    const updatedUser = await User.findByIdAndUpdate(
       userId,
       { username, email },
       { new: true, runValidators: true }
@@ -118,7 +118,7 @@ exports.resetPassword = async (req, res) => {
 
     res.status(200).json({ message: "Password updated successfully" });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ message: error.message });
   }
 };
 

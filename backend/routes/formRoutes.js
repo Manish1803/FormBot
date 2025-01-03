@@ -6,27 +6,21 @@ const router = express.Router();
 
 router.post("/", authenticateToken, formController.createForm);
 router.get("/:id", authenticateToken, formController.getForm);
-router.get("/:id", authenticateToken, formController.updateForm);
-router.get("/:id", authenticateToken, formController.deleteForm);
+router.put("/:id", authenticateToken, formController.updateForm);
+router.delete("/:id", authenticateToken, formController.deleteForm);
 router.get(
   "/:id/response-link",
   authenticateToken,
   formController.getFormResponseLink
 );
-router.post(
-  "/respond/:responseLink/field",
-  authenticateToken,
-  formController.submitFieldResponse
-);
-router.post(
-  "/respond/:responseLink",
-  authenticateToken,
-  formController.submitFormResponse
-);
+router.post("/respond/:responseLink/field", formController.submitFieldResponse);
+router.post("/respond/:responseLink", formController.submitFormResponse);
 router.get(
   "/:id/responses",
   authenticateToken,
   formController.getFormResponses
 );
+router.get("/respond/:responseLink", formController.getFormStructure);
+router.post("/view/:responseLink", formController.incrementFormView);
 
 module.exports = router;

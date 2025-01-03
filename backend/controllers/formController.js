@@ -80,7 +80,23 @@ exports.getForm = async (req, res) => {
         .json({ error: "Not authorized to view this form" });
     }
 
-    res.json(form);
+    res.json({
+      id: form._id,
+      title: form.title,
+      fields: form.fields.map((field) => ({
+        id: field._id,
+        title: field.title,
+        type: field.type,
+        value: field.value,
+        required: field.required,
+      })),
+      workspace: form.workspace,
+      folder: form.folder,
+      responseLink: form.responseLink,
+      viewsCount: form.viewsCount,
+      startCount: form.startCount,
+      completionsCount: form.completionsCount,
+    });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -183,12 +199,30 @@ exports.submitFieldResponse = async (req, res) => {
       return res.status(404).json({ error: "Form not found" });
     }
 
-    const fieldResponse = new FieldResponse({
+    let response = await Response.findOne({
       form: form._id,
-      field: fieldId,
-      value: value,
+      isCompleted: false,
     });
-    await fieldResponse.save();
+
+    if (!response) {
+      response = new Response({
+        form: form._id,
+        answers: [],
+      });
+      // Increment startCount when a new response is created
+      await Form.findByIdAndUpdate(form._id, { $inc: { startCount: 1 } });
+    }
+
+    const existingAnswerIndex = response.answers.findIndex(
+      (a) => a.field.toString() === fieldId
+    );
+    if (existingAnswerIndex !== -1) {
+      response.answers[existingAnswerIndex].value = value;
+    } else {
+      response.answers.push({ field: fieldId, value });
+    }
+
+    await response.save();
 
     res.status(201).json({ message: "Field response submitted successfully" });
   } catch (error) {
@@ -206,27 +240,40 @@ exports.submitFormResponse = async (req, res) => {
       return res.status(404).json({ error: "Form not found" });
     }
 
-    const fieldResponses = await FieldResponse.find({ form: form._id });
-    const allAnswers = [
-      ...answers,
-      ...fieldResponses.map((fr) => ({ field: fr.field, value: fr.value })),
-    ];
-
-    const completedPercentage = (allAnswers.length / form.fields.length) * 100;
-
-    const response = new Response({
+    let response = await Response.findOne({
       form: form._id,
-      answers: allAnswers,
-      completedPercentage: completedPercentage,
+      isCompleted: false,
     });
+
+    if (!response) {
+      response = new Response({
+        form: form._id,
+        answers: [],
+      });
+      // Increment startCount when a new response is created
+      await Form.findByIdAndUpdate(form._id, { $inc: { startCount: 1 } });
+    }
+
+    answers.forEach((answer) => {
+      const existingAnswerIndex = response.answers.findIndex(
+        (a) => a.field.toString() === answer.field
+      );
+      if (existingAnswerIndex !== -1) {
+        response.answers[existingAnswerIndex].value = answer.value;
+      } else {
+        response.answers.push(answer);
+      }
+    });
+
+    response.isCompleted = response.answers.length === form.fields.length;
+    response.submittedAt = new Date();
     await response.save();
 
-    await Form.findByIdAndUpdate(form._id, {
-      $push: { responses: response._id },
-      $inc: { statsCount: 1 },
-    });
-
-    await FieldResponse.deleteMany({ form: form._id });
+    if (response.isCompleted) {
+      await Form.findByIdAndUpdate(form._id, {
+        $inc: { completionsCount: 1 },
+      });
+    }
 
     res.status(201).json({ message: "Response submitted successfully" });
   } catch (error) {
@@ -259,10 +306,70 @@ exports.getFormResponses = async (req, res) => {
       form: {
         id: form._id,
         title: form.title,
-        viewsCount: form.viewsCount + 1,
+        viewsCount: form.viewsCount,
+        startsCount: form.startsCount,
+        completionsCount: form.completionsCount,
       },
-      responses: responses,
+      responses: responses.map((response) => ({
+        id: response._id,
+        answers: response.answers,
+        isCompleted: response.isCompleted,
+        submittedAt: response.submittedAt,
+      })),
     });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+exports.getFormStructure = async (req, res) => {
+  try {
+    const { responseLink } = req.params;
+
+    const form = await Form.findOne({ responseLink }).select("title fields");
+
+    if (!form) {
+      return res.status(404).json({ error: "Form not found" });
+    }
+
+    // Increment the view count
+    await Form.findByIdAndUpdate(form._id, { $inc: { viewsCount: 1 } });
+
+    res.json({
+      id: form._id,
+      title: form.title,
+      description: form.description,
+      fields: form.fields.map((field) => ({
+        id: field._id,
+        title: field.title,
+        type: field.type,
+        value: field.value,
+        placeholder: field.placeholder,
+        required: field.required,
+      })),
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching the form structure" });
+  }
+};
+
+exports.incrementFormView = async (req, res) => {
+  try {
+    const { responseLink } = req.params;
+
+    const form = await Form.findOneAndUpdate(
+      { responseLink },
+      { $inc: { viewsCount: 1 } },
+      { new: true }
+    );
+
+    if (!form) {
+      return res.status(404).json({ error: "Form not found" });
+    }
+
+    res.json({ message: "Form view count incremented successfully" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

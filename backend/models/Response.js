@@ -9,6 +9,7 @@ const responseSchema = new mongoose.Schema({
     },
   ],
   submittedAt: { type: Date, default: Date.now },
+  isCompleted: { type: Boolean, default: false },
 });
 
 const Response = mongoose.model("Response", responseSchema);
